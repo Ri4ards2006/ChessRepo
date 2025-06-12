@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!-- Deklariert den Dokumenttyp: HTML5 (wichtig für Browserkompatibilität) -->
+<html lang="de">
+<!-- Öffnet das HTML-Dokument und legt die Sprache auf Deutsch fest -->
+
+<head>
+    <!-- Der Kopfbereich der HTML-Datei – hier kommen Metadaten rein, z. B. Titel, Zeichensatz, CSS-Verlinkung -->
+
+    <meta charset="UTF-8">
+    <!-- Zeichencodierung: UTF-8 = unterstützt Umlaute, Sonderzeichen usw. -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Sorgt dafür, dass die Website auf Smartphones responsive (anpassbar) ist -->
+
+    <title>Richard's Schach</title>
+    <!-- Der Tab-Titel oben im Browser -->
+
+    <link rel="stylesheet" href="Chess.css">
+    <!-- Verknüpft eine externe CSS-Datei für das Styling – das ist wie das Design der Seite (Farben, Layout, Schrift) -->
+</head>
+
+<body>
+<!-- Der sichtbare Inhalt der Website startet hier -->
+
+    <h1>Richard's Schach</h1>
+    <!-- Große Überschrift – wird oft als Titel genutzt -->
+
+    <div id="chess-container">
+    <!-- Ein Container für das Schachbrett und Koordinaten – "div" ist ein Block-Element (Container für andere Inhalte) -->
+
+        <div id="coordinates-y"></div>
+        <!-- Platzhalter für die Koordinaten (z. B. A–H oder 1–8 an der Seite) auf der Y-Achse (vertikal) -->
+
+        <div id="chessboard"></div>
+        <!-- Das eigentliche Schachbrett kommt hierhin – wird wahrscheinlich über CSS & JS erzeugt -->
+
+        <div id="coordinates-x"></div>
+        <!-- Platzhalter für die Koordinaten auf der X-Achse (horizontal) -->
+    </div>
+
+    <p id="status">Zug: Weiß</p>
+    <!-- "p" steht für Paragraph – hier zeigt die Seite an, welcher Spieler gerade am Zug ist -->
+
+    <div id="controls">
+    <!-- Ein weiterer Container für die Steuerungselemente (Buttons) -->
+
+        <button onclick="resetGame()">Neues Spiel</button>
+        <!-- Button, um das Spiel neu zu starten – ruft JavaScript-Funktion resetGame() auf -->
+
+        <button onclick="undoMove()">Zug zurück</button>
+        <!-- Button, um den letzten Zug rückgängig zu machen – ruft undoMove() auf -->
+    </div>
+
+    <script src="Chess.js"></script>
+    <!-- Hier wird das JavaScript geladen – verantwortlich für die Spiellogik, Bewegungen, etc. -->
+</body>
+
+</html>
+<!-- Ende des HTML-Dokuments -->

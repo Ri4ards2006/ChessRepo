@@ -1,0 +1,202 @@
+/* ========== Reset aller Elemente ========== */
+* {
+    margin: 0;               /* Entfernt äußeren Abstand von allen Elementen */
+    padding: 0;              /* Entfernt inneren Abstand von allen Elementen */
+    box-sizing: border-box; /* Bezieht padding und border in die Gesamtgröße eines Elements ein (vermeidet Layout-Probleme) */
+}
+
+/* ========== Body-Grunddesign mit Schachmuster-Hintergrund ========== */
+body {
+    display: flex;                       /* Aktiviert Flexbox: Elemente im Body werden flexibel angeordnet */
+    flex-direction: column;             /* Ordnet Kinder (z. B. h1, Container) vertikal untereinander an */
+    align-items: center;                /* Zentriert horizontal (entlang Querachse) */
+    justify-content: center;            /* Zentriert vertikal (entlang Hauptachse) */
+    min-height: 100vh;                  /* Mindestens volle Höhe des Bildschirms (viewport height) */
+    
+    /* Hintergrundgestaltung */
+    background: radial-gradient(circle, #222, #333); /* Hintergrund: Kreisförmiger Verlauf */
+    background-size: 60px 60px;                      /* Größe der wiederholten Muster */
+    background-image: 
+        linear-gradient(45deg, #444 25%, transparent 25%, transparent 75%, #444 75%, #444),
+        linear-gradient(45deg, #444 25%, #222 25%, #222 75%, #444 75%, #444); /* Erzeugt diagonales Schachbrettmuster */
+    
+    color: white;                        /* Standard-Schriftfarbe */
+    font-family: 'Arial', sans-serif;   /* Schriftart */
+    padding: 20px;                      /* Innerer Abstand zum Rand */
+}
+
+/* ========== Haupttitel-Styling (h1) ========== */
+h1 {
+    font-size: 2.5rem;                      /* Schriftgröße */
+    margin-bottom: 20px;                   /* Abstand nach unten */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Textschatten für besseren Kontrast */
+}
+
+/* ========== Container für Schachbrett und Koordinaten ========== */
+#chess-container {
+    position: relative;        /* Wichtig, damit Koordinaten absolut positioniert werden können */
+    display: inline-block;     /* Behält Größe des Inhalts bei, erlaubt trotzdem Block-Eigenschaften */
+}
+
+/* ========== Y-Koordinaten (links neben dem Brett) ========== */
+#coordinates-y {
+    position: absolute;              /* Absolut relativ zum Container */
+    left: -35px;                     /* Position links außerhalb des Brettes */
+    top: 0;
+    height: 640px;                   /* Genau 8 Reihen à 80px */
+    display: flex;                   /* Flexbox, um Zahlen gleichmäßig zu verteilen */
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: bold;
+}
+
+/* ========== X-Koordinaten (unter dem Brett) ========== */
+#coordinates-x {
+    position: absolute;
+    bottom: -35px;
+    left: 0;
+    width: 640px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: bold;
+}
+
+/* ========== Schachbrett (Grid mit 8x8 Zellen) ========== */
+#chessboard {
+    display: grid;                         /* Rasterlayout aktivieren */
+    grid-template-columns: repeat(8, 80px); /* 8 Spalten à 80px */
+    grid-template-rows: repeat(8, 80px);    /* 8 Zeilen à 80px */
+    border: 4px solid #8B4513;              /* Brauner Rahmen */
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.7); /* Schlagschatten */
+    border-radius: 8px;                     /* Abgerundete Ecken */
+    overflow: hidden;                       /* Inhalt bleibt innerhalb der Rundung */
+}
+
+/* ========== Allgemeine Zellen ========== */
+.cell {
+    display: flex;                   /* Zentrierung des Inhalts */
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;               /* Große Symbole (z. B. Figuren) */
+    cursor: pointer;                /* Zeigt Hand-Cursor an */
+    transition: all 0.2s ease;      /* Sanfte Animation bei Hover etc. */
+    position: relative;             /* Notwendig für Pseudo-Elemente ::after */
+    user-select: none;             /* Verhindert Markieren mit Maus */
+}
+
+/* ========== Farbige Felder (weiß & schwarz) ========== */
+.cell.white {
+    background-color: #f0d9b5;  /* Helle Felder */
+    color: #333;
+}
+
+.cell.black {
+    background-color: #b58863;  /* Dunkle Felder */
+    color: #333;
+}
+
+/* ========== Aktuelle Auswahl (markiertes Feld) ========== */
+.cell.selected {
+    background-color: #4CAF50 !important; /* Grün als Markierung */
+    box-shadow: inset 0 0 0 4px #2E7D32;  /* Grüner Innenrahmen */
+    transform: scale(1.05);               /* Leicht vergrößert */
+}
+
+/* ========== Mögliche Züge ========== */
+.cell.valid-move {
+    background-color: #FFC107 !important; /* Gelber Hintergrund */
+    position: relative;
+}
+
+.cell.valid-move::after {
+    content: '●';                          /* Punkt als Hinweis */
+    position: absolute;
+    font-size: 1.5rem;
+    color: #FF5722;                        /* Orange-Rot */
+    z-index: 1;
+    opacity: 0.8;
+}
+
+/* ========== Angriffsziele (gegnerische Figur) ========== */
+.cell.capture {
+    background-color: #F44336 !important; /* Rotes Feld */
+}
+
+.cell.capture::after {
+    content: '⚔';                        /* Schwert-Symbol */
+    position: absolute;
+    font-size: 1.2rem;
+    color: #fff;
+    z-index: 1;
+}
+
+/* ========== Hover-Effekt auf Zellen ========== */
+.cell:hover {
+    transform: scale(1.02);                           /* Leichte Vergrößerung */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);     /* Leichter Leuchteffekt */
+}
+
+/* ========== Statusfeld für Meldungen wie "Weiß ist am Zug" ========== */
+#status {
+    margin-top: 40px;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 15px 25px;
+    background: linear-gradient(135deg, #2C3E50, #34495E); /* Dunkelblauer Verlauf */
+    border-radius: 10px;
+    border: 2px solid #f0d9b5;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    min-width: 400px;
+}
+
+/* ========== Steuerungs-Buttons (z. B. Reset, Zug zurück) ========== */
+#controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;               /* Abstand zwischen Buttons */
+}
+
+/* ========== Buttons-Styling ========== */
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #3498DB, #2980B9); /* Blauer Verlauf */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Sanfte Hover-Animation */
+}
+
+/* ========== Hover-Effekt für Buttons ========== */
+button:hover {
+    background: linear-gradient(135deg, #2980B9, #1F618D); /* Dunklerer Verlauf beim Drüberfahren */
+    transform: translateY(-2px); /* Button hebt sich leicht ab */
+}
+
+/* ========== Responsive Anpassungen für Mobilgeräte ========== */
+@media (max-width: 768px) {
+    #chessboard {
+        grid-template-columns: repeat(8, 60px); /* Kleinere Felder */
+        grid-template-rows: repeat(8, 60px);
+    }
+    
+    .cell {
+        font-size: 2rem; /* Kleinere Figuren */
+    }
+    
+    #coordinates-y, #coordinates-x {
+        font-size: 1rem;
+    }
+    
+    #status {
+        font-size: 1.2rem;
+        min-width: 300px;
+    }
+}

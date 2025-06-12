@@ -6,7 +6,7 @@ const statusDisplay = document.getElementById("status");
 let selectedPiece = null;
 let isWhiteTurn = true; // Weiß beginnt
 
-// Initiales Schachbrett mit allen Figuren
+// Initiales Schachbrtt mit allen Figuren
 const initialBoard = [
     ["♜", "♞", "♝", "♛", "♚", "♝", "♞", "♜"],
     ["♟", "♟", "♟", "♟", "♟", "♟", "♟", "♟"],
